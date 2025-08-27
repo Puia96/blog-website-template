@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userStore } from "../stores/userStore";
 import { ImExit } from "react-icons/im";
+import {
+  Button,
+  FormControl,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 const Navbar = () => {
   const { user, logout, checkingAuth } = userStore();
+  const [logoutData, setLogout] = useState(null);
+
   const isAdmin = user?.role === "admin";
   const navigate = useNavigate();
   const location = useLocation();
+
+  const {
+    isOpen: isLogoutOpen,
+    onOpen: openLogout,
+    onClose: closeLogout,
+  } = useDisclosure();
 
   const linkClass = (path) =>
     location.pathname === path
@@ -16,8 +35,19 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    // navigate("/login");
   };
+
+  const openLogoutDialog = (l) => {
+    setLogout(l);
+    openLogout();
+  };
+
+  useEffect(() => {
+  if (!user && !checkingAuth) {
+    navigate("/login");
+  }
+}, [user, checkingAuth, navigate]);
 
   if (checkingAuth) {
     return (
@@ -56,12 +86,55 @@ const Navbar = () => {
           )}
           {/* <Link to="/dashboard">Dashboard</Link> */}
           {isAdmin && (
-            <button onClick={handleLogout} title="Logout">
+            <button onClick={() => openLogoutDialog(user)} title="Logout">
               <ImExit size={"22px"} />
             </button>
+            // <button onClick={handleLogout} title="Logout">
+            //   <ImExit size={"22px"} />
+            // </button>
           )}
         </div>
       </div>
+
+      <Modal isOpen={isLogoutOpen} onClose={closeLogout} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader className="bg-gray-300">
+            <div className="flex items-center">
+              <ImExit className="mr-2" />
+              Logout confirmation
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form onSubmit={handleLogout}>
+              <FormControl isRequired>
+                <div className="mt-2 mb-3">
+                  Are you sure you want to logout?
+                </div>
+                <div className="text-end mb-5 flex gap-3">
+                  <Button
+                    onClick={closeLogout}
+                    variant="solid"
+                    colorScheme="yellow"
+                    width={"full"}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="solid"
+                    colorScheme="blue"
+                    width={"full"}
+                  >
+                    Yes
+                  </Button>
+                </div>
+              </FormControl>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
