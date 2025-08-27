@@ -2,10 +2,13 @@ import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
 import { commentStore } from "../stores/commentStore";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  // useNavigate,
+  useParams,
+} from "react-router-dom";
 
-const Comment = () => {
-  const navigate = useNavigate();
+const Comment = ({ fetchComment }) => {
+  // const navigate = useNavigate();
   const { createComment } = commentStore();
   const { id } = useParams();
 
@@ -27,7 +30,8 @@ const Comment = () => {
         commenterEmail: "",
         content: "",
       });
-      navigate("/");
+      fetchComment();
+      // navigate(`/posts/${id}`);
     }
   };
 

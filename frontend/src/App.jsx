@@ -9,6 +9,7 @@ import Create from "./pages/Create";
 import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
 import { Toaster } from "react-hot-toast";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const { user, checkAuth } = userStore();
@@ -40,6 +41,10 @@ function App() {
             <Route
               path="/create"
               element={user ? <Create /> : <Navigate to="/create" />}
+            />
+            <Route
+              path="/user-profile"
+              element={user ? <UserProfile /> : <Navigate to="/user-profile" />}
             />
             <Route path="/login" element={<Login />} />
             <Route path="/posts/:id" element={<PostDetail />} />

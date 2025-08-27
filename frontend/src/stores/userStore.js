@@ -6,6 +6,7 @@ export const userStore = create((set, get) => ({
   user: null,
   loading: false,
   checkingAuth: true,
+  updateUser: (user) => set({ user }),
 
   login: async (email, password) => {
     set({ loading: true });

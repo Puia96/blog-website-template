@@ -133,7 +133,7 @@ const PostDetail = () => {
         </div>
       </div>
       <div>
-        <Comment />
+        <Comment fetchComment={fetchComment} />
       </div>
 
       <Modal isOpen={isDeleteOpen} onClose={closeDelete} isCentered>
