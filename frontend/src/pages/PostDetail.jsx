@@ -74,7 +74,7 @@ const PostDetail = () => {
   };
 
   return (
-    <div className="mt-16 px-3 sm:px-72 my-4">
+    <div className="mt-16 sm:mt-20 px-3 sm:px-72 my-4">
       <div className="text-3xl font-bold">{post.title}</div>
       <div>
         <div className="text-gray-500 py-1">
