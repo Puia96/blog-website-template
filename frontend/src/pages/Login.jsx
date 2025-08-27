@@ -13,7 +13,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { userStore } from "../stores/userStore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -83,6 +83,13 @@ const Login = () => {
                   </Stack>
                 </FormControl>
               </form>
+            </div>
+            <div className="mt-7 text-center">
+              <div className="hover:text-blue-600 hover:underline">
+                <Link to="/sign-up">
+                  If no existing account, go for sign up!
+                </Link>
+              </div>
             </div>
           </CardBody>
         </Stack>

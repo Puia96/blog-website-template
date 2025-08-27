@@ -1,12 +1,34 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 import { toast } from "react-hot-toast";
+import User from "../../../backend/models/user.model";
 
 export const userStore = create((set, get) => ({
   user: null,
   loading: false,
   checkingAuth: true,
   updateUser: (user) => set({ user }),
+
+  signup: async ({ name, email, password, confirmPassword }) => {
+    set({ loading: true });
+    if (password != confirmPassword) {
+      set({ loading: false });
+      return toast.error("Password does not match");
+    }
+
+    try {
+      await axios.post("/auth/sign-up", { name, email, password });
+
+      //auto login dawn chuan user set angai
+      // const res = await axios.post("/auth/sign-up", { name, email, password });
+      // set({ user: res.data, loading: false });
+      toast.success("Sign up successfully");
+      return true;
+    } catch (error) {
+      set({ loading: false });
+      toast.error(error.message || "an error occurred");
+    }
+  },
 
   login: async (email, password) => {
     set({ loading: true });

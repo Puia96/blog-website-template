@@ -10,18 +10,19 @@ import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
 import { Toaster } from "react-hot-toast";
 import UserProfile from "./pages/UserProfile";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   const { user, checkAuth } = userStore();
 
+  const location = useLocation();
+
+  const hideNavbarRoutes = ["/login", "/sign-up"];
+  const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
+
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  const location = useLocation();
-
-  const hideNavbarRoutes = ["/login"];
-  const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
 
   return (
     <>
@@ -36,17 +37,26 @@ function App() {
             />
             <Route
               path="/post"
-              element={user ? <Post /> : <Navigate to="/post" />}
+              element={user ? <Post /> : <Navigate to="/login" />}
             />
             <Route
               path="/create"
-              element={user ? <Create /> : <Navigate to="/create" />}
+              element={user ? <Create /> : <Navigate to="/login" />}
             />
             <Route
               path="/user-profile"
-              element={user ? <UserProfile /> : <Navigate to="/user-profile" />}
+              element={user ? <UserProfile /> : <Navigate to="/login" />}
             />
-            <Route path="/login" element={<Login />} />
+            {/* <Route
+              path="/sign-up"
+              element={!user ? <SignUpPage /> : <Navigate to="/login" />}
+            /> */}
+            <Route path="/sign-up" element={<SignUpPage />} />
+
+            <Route
+              path="/login"
+              element={!user ? <Login /> : <Navigate to="/dashboard" />}
+            />
             <Route path="/posts/:id" element={<PostDetail />} />
           </Routes>
         </div>

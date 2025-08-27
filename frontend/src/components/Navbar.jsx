@@ -44,10 +44,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-  if (!user && !checkingAuth) {
-    navigate("/login");
-  }
-}, [user, checkingAuth, navigate]);
+    if (!user && !checkingAuth) {
+      navigate("/login");
+    }
+  }, [user, checkingAuth, navigate]);
 
   if (checkingAuth) {
     return (
